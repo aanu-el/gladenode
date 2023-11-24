@@ -10,4 +10,4 @@ const merchantKey = "e76c6e6a-d585-4487-8297-c11ded1e58c2"
 
 const api = new Glade(merchantId, merchantKey, true)
 const  apiCall = api.bankList()
-console.log( apiCall)
+console.log(apiCall)

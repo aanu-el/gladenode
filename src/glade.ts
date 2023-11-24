@@ -32,13 +32,12 @@ export class Glade {
     }
 
     public async bankList() {
-        const res = await this.request.makeApiCall(Constants.putMethod, Constants.resourceUrl, 
+        const resp = await this.request.makeApiCall(Constants.putMethod, Constants.resourceUrl, 
             {
                 'inquire': 'banks'
             }
         )
-        console.log("nnnnnnnnn", res)
-        return res
+        return resp;
     }
 
     public verifyAccountName(accountNumber: string, bankCode: string, bankName: string) {

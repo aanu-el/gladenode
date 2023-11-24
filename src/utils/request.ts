@@ -32,21 +32,23 @@ export class APIRequest {
 
         try {
             if (method == "post") {
-                return this.post(url, payload);
+                const resp = await this.post(url, payload);
+                return resp;
             } else if (method == "put") {
-                const putt = await this.put(url, payload);
-                console.log("puuuttt", putt)
-                return putt
+                const resp = await this.put(url, payload);
+                return resp;
             } else if (method == "patch") {
-                return this.patch(url, payload);
+                const resp = await this.patch(url, payload); 
+                return resp;
             } else if (method == "delete") {
-                return this.delete(url, payload);
+                const resp = await this.delete(url, payload);
+                return resp;
             } else {
-                return this.get(url);
+                const resp = await this.get(url);
+                return resp;
             }
 
         } catch (error) {
-            console.log(error)
             return this.handleFailureResponse(error);
         }
 
@@ -72,17 +74,9 @@ export class APIRequest {
 
 
     public async put(url: string, payload: any) {
-        
         let axiosRes = await this.axiosCall.put(url, payload)
-        return this.handleSuccessResponse(axiosRes);
-            // .then((response: any) => {
-            //     axiosRes = response;
-            // }).catch((error: any) => {
-            //     return this.handleFailureResponse(error);
-            // })
-
-        // console.log("ressss", axiosRes)
-        // return axiosRes
+        axiosRes = this.handleResponse(axiosRes);
+        return axiosRes;
     }
 
     public patch(url: string, payload: any) {
@@ -101,6 +95,15 @@ export class APIRequest {
             }).catch((error: any) => {
                 return this.handleFailureResponse(error);
             })
+    }
+
+    public handleResponse(responsePayload: any) {
+
+        if (responsePayload.status == 200) {
+            return this.handleSuccessResponse(responsePayload);
+        } else {
+            return this.handleFailureResponse(responsePayload);
+        }
     }
 
     public handleSuccessResponse(responsePayload: any) {
