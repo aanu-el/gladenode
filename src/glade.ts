@@ -14,25 +14,27 @@ export class Glade {
         this.request = new APIRequest(this.merchantId, this.merchantKey, this.baseUrl)
     }
 
-    public bvnValidation(bvnNumber: string) {
-        return this.request.makeApiCall(Constants.putMethod, Constants.resourceUrl,
+    public async bvnValidation(bvnNumber: string) {
+        const resp = await this.request.makeApiCall(Constants.putMethod, Constants.resourceUrl,
             {
                 'inquire': 'bvn',
                 'bvn': bvnNumber
             }
         )
+        return resp
     }
 
-    public supportedChargeableBanks() {
-        return this.request.makeApiCall(Constants.putMethod, Constants.resourceUrl,
+    public async supportedChargeableBanks() {
+        const resp = await this.request.makeApiCall(Constants.putMethod, Constants.resourceUrl,
             {
                 'inquire': 'supported_chargable_banks'
             }
         )
+        return resp
     }
 
     public async bankList() {
-        const resp = await this.request.makeApiCall(Constants.putMethod, Constants.resourceUrl, 
+        const resp = await this.request.makeApiCall(Constants.putMethod, Constants.resourceUrl,
             {
                 'inquire': 'banks'
             }
@@ -40,8 +42,8 @@ export class Glade {
         return resp;
     }
 
-    public verifyAccountName(accountNumber: string, bankCode: string, bankName: string) {
-        return this.request.makeApiCall(Constants.putMethod, Constants.resourceUrl,
+    public async verifyAccountName(accountNumber: string, bankCode: string, bankName: string) {
+        const resp = await this.request.makeApiCall(Constants.putMethod, Constants.resourceUrl,
             {
                 "inquire": "accountname",
                 "accountnumber": accountNumber,
@@ -49,10 +51,11 @@ export class Glade {
                 "bankname": bankName
             }
         )
+        return resp;
     }
 
-    public personalizedAccount(accountName: string, accountEmail: string, accountBvn: string, reference: string, channel: string = "providus") {
-        return this.request.makeApiCall(Constants.putMethod, Constants.resourceUrl,
+    public async personalizedAccount(accountName: string, accountEmail: string, accountBvn: string, reference: string, channel: string = "providus") {
+        const resp = await this.request.makeApiCall(Constants.putMethod, Constants.resourceUrl,
             {
                 "request": "personalized-accounts",
                 "name": accountName,
@@ -62,11 +65,12 @@ export class Glade {
                 "bank": channel
             }
         )
+        return resp;
     }
 
 
-    public createCustomer(name: string, email: string, phoneNumber: string, address: string) {
-        return this.request.makeApiCall(Constants.putMethod, Constants.resourceUrl,
+    public async createCustomer(name: string, email: string, phoneNumber: string, address: string) {
+        const resp = await this.request.makeApiCall(Constants.putMethod, Constants.resourceUrl,
             {
                 "request": "customer",
                 "address": address,
@@ -75,26 +79,29 @@ export class Glade {
                 "phone": phoneNumber
             }
         )
+        return resp;
     }
 
-    public getCustomers() {
-        return this.request.makeApiCall(Constants.putMethod, Constants.resourceUrl,
+    public async getCustomers() {
+        const resp = await this.request.makeApiCall(Constants.putMethod, Constants.resourceUrl,
             {
                 "inquire": "customer"
             }
         )
+        return resp;
     }
 
-    public getCustomerDetail(customerId: number) {
-        return this.request.makeApiCall(Constants.putMethod, Constants.resourceUrl,
+    public async getCustomerDetail(customerId: number) {
+        const resp = await this.request.makeApiCall(Constants.putMethod, Constants.resourceUrl,
             {
                 "inquire": "customer_detail",
                 "customer_id": customerId
             }
         )
+        return resp;
     }
 
-    public getBillCategory(category: any = null) {
+    public async getBillCategory(category: any = null) {
         let data = {
             "action": "pull"
         }
@@ -102,30 +109,33 @@ export class Glade {
             Object.assign(data, { category: category });
         }
 
-        return this.request.makeApiCall(Constants.putMethod, Constants.billUrl, data)
+        const resp = await this.request.makeApiCall(Constants.putMethod, Constants.billUrl, data)
+        return resp;
     }
 
-    public getBillById(billId: number) {
-        return this.request.makeApiCall(Constants.putMethod, Constants.billUrl,
+    public async getBillById(billId: number) {
+        const resp = await this.request.makeApiCall(Constants.putMethod, Constants.billUrl,
             {
                 "action": "pull",
                 "bills_id": billId
             }
         )
+        return resp;
     }
 
-    public resolveBill(payCode: string, reference: string) {
-        return this.request.makeApiCall(Constants.putMethod, Constants.billUrl,
+    public async resolveBill(payCode: string, reference: string) {
+        const resp = await this.request.makeApiCall(Constants.putMethod, Constants.billUrl,
             {
                 "action": "resolve",
                 "paycode": payCode,
                 "reference": reference
             }
         )
+        return resp;
     }
 
-    public purchaseBill(payCode: string, amount: number, reference: string, orderReference: any = null) {
-        return this.request.makeApiCall(Constants.putMethod, Constants.billUrl,
+    public async purchaseBill(payCode: string, amount: number, reference: string, orderReference: any = null) {
+        const resp = await this.request.makeApiCall(Constants.putMethod, Constants.billUrl,
             {
                 "action": "resolve",
                 "paycode": payCode,
@@ -134,19 +144,21 @@ export class Glade {
                 "orderRef": orderReference
             }
         )
+        return resp;
     }
 
-    public verifyBillPurchase(transactionReference: string) {
-        return this.request.makeApiCall(Constants.putMethod, Constants.billUrl,
+    public async verifyBillPurchase(transactionReference: string) {
+        const resp = await this.request.makeApiCall(Constants.putMethod, Constants.billUrl,
             {
                 "action": "verify",
                 "txnRef": transactionReference
             }
         )
+        return resp;
     }
 
-    public transfer(amount: number, receiverAccountNumber: string, receiverBankCode: string, senderName: string, reference: string, narration: string) {
-        return this.request.makeApiCall(Constants.putMethod, Constants.transferUrl,
+    public async transfer(amount: number, receiverAccountNumber: string, receiverBankCode: string, senderName: string, reference: string, narration: string) {
+        const resp = await this.request.makeApiCall(Constants.putMethod, Constants.transferUrl,
             {
                 "action": "transfer",
                 "amount": amount,
@@ -157,18 +169,20 @@ export class Glade {
                 "orderRef": reference
             }
         )
+        return resp;
     }
 
-    public verifySingleTransfer(reference: string) {
-        return this.request.makeApiCall(Constants.putMethod, Constants.transferUrl,
+    public async verifySingleTransfer(reference: string) {
+        const resp = await this.request.makeApiCall(Constants.putMethod, Constants.transferUrl,
             {
                 "action": "verify",
                 "txnRef": reference,
             }
         )
+        return resp;
     }
 
-    public bulkTransfer(transferObjects: string[]) {
+    public async bulkTransfer(transferObjects: string[]) {
         if (!Helper.validateMultiArray(transferObjects)) {
             return this.request.handleCustomResponse(400, 'error', 'array object must be a multidimensional array')
         }
@@ -177,17 +191,18 @@ export class Glade {
             return this.request.handleCustomResponse(400, 'error', 'Data structure does not match required data, please refer to documentation')
         }
 
-        return this.request.makeApiCall(Constants.putMethod, Constants.transferUrl,
+        const resp = await this.request.makeApiCall(Constants.putMethod, Constants.transferUrl,
             {
                 "action": "transfer",
                 "type": "bulk",
                 "data": transferObjects
             }
         )
+        return resp;
     }
 
-    public createPaymentLink(title: string, description: string, amount: number, type: string, payerBearsFees: boolean, acceptNumber: boolean, notificationEmail: string, customLink: any = null, redirectUrl = null, customMessage = null, frequency = null) {
-        return this.request.makeApiCall(Constants.putMethod, Constants.resourceUrl,
+    public async createPaymentLink(title: string, description: string, amount: number, type: string, payerBearsFees: boolean, acceptNumber: boolean, notificationEmail: string, customLink: any = null, redirectUrl = null, customMessage = null, frequency = null) {
+        const resp = await this.request.makeApiCall(Constants.putMethod, Constants.resourceUrl,
             {
                 "request": "paylink",
                 "title": title,
@@ -204,11 +219,12 @@ export class Glade {
                 "frequency": frequency
             }
         )
+        return resp;
     }
 
-    public createTicket(title: string, description: string, amount: number, type: string, payerBearsFees: boolean, acceptNumber: boolean, notificationEmail: string, ticketData: string[], customLink: any = null, redirectUrl = null, customMessage = null, frequency = null) {
+    public async createTicket(title: string, description: string, amount: number, type: string, payerBearsFees: boolean, acceptNumber: boolean, notificationEmail: string, ticketData: string[], customLink: any = null, redirectUrl = null, customMessage = null, frequency = null) {
 
-        return this.request.makeApiCall(Constants.putMethod, Constants.resourceUrl,
+        const resp = await this.request.makeApiCall(Constants.putMethod, Constants.resourceUrl,
             {
                 "request": "ticket",
                 "title": title,
@@ -226,10 +242,11 @@ export class Glade {
                 "ticket_data": ticketData
             }
         )
+        return resp;
     }
 
-    public invoice(customerId: number, chargeUser: boolean, shipping: number, vat: number, dueDate: string, allowedDiscount: boolean, invoiceItems: string[], note: string, discountType: any = null, invoiceId: string) {
-        return this.request.makeApiCall(Constants.putMethod, Constants.resourceUrl,
+    public async invoice(customerId: number, chargeUser: boolean, shipping: number, vat: number, dueDate: string, allowedDiscount: boolean, invoiceItems: string[], note: string, discountType: any = null, invoiceId: string) {
+        const resp = await this.request.makeApiCall(Constants.putMethod, Constants.resourceUrl,
             {
                 "request": "invoice",
                 "invoice_id": invoiceId,
@@ -245,6 +262,7 @@ export class Glade {
                 "items": invoiceItems
             }
         )
+        return resp;
     }
 
 }

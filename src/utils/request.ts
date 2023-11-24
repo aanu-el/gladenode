@@ -117,11 +117,11 @@ export class APIRequest {
 
     public handleFailureResponse(responsePayload: any) {
         const response: any = {}
-        response["code"] = responsePayload.status
+        response["code"] = responsePayload.response.status
         response["status"] = "error"
 
         if (response["code"] == 401 || response["code"] == "401") { response["message"] = "Ensure merchant key and merchant id is provided" }
-        else { response["message"] = JSON.stringify(responsePayload.data) }
+        else { response["message"] = JSON.stringify(responsePayload.response.data.message) }
 
         return response;
     }

@@ -9,5 +9,10 @@ const merchantKey = "e76c6e6a-d585-4487-8297-c11ded1e58c2"
 // const merchantKey = "83e0798fafa94bcbbc6ea6203cd9b64b"
 
 const api = new Glade(merchantId, merchantKey, true)
-const  apiCall = api.bankList()
-console.log(apiCall)
+
+const apiCalls = async function apiCall() {
+    let resp = await api.bankList()
+    return resp;
+}
+
+apiCalls().then(result => console.log(result));
