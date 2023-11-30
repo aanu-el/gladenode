@@ -6,31 +6,32 @@ To Learn more, visit https://developer.gladefinance.co/docs
 You need a Merchant ID and Key to authenticate against the API, please contact support@gladefinance.co to setup a demo account.
 
 ## Installation
-You can close this project and include the class in your project or you can add the repo in your package.json file as in the example below:
-
-
-````
-{
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://gitlab.com/gladepay-apis/gladenode"
-        }
-    ],
-    "require": {
-        "gladefinance/gladenode": "^1.0.0"
-    }
-}
-
-````
-
-Or simply run the 
+Simply run the 
 
 ```` 
-npm install gladefinance/gladenode 
+npm install glade-api-nodejs 
 
 ```` 
 in your project.
+
+## Usage
+````
+import { Glade } from "glade-api-nodejs";
+
+const merchantId = ""
+const merchantKey = ""
+
+const api = new Glade(merchantId: string, merchantKey: string, isProd: boolean) //isProd = false by default
+
+const apiCalls = async function apiCall() {
+    let resp = await api.bankList()
+    return resp;
+}
+
+apiCalls().then(result => console.log(result));
+
+
+````
 
 
 ## Set environment
